@@ -13,10 +13,12 @@ print("Image dimensions",img.size)
 
 pixelBufferX=100 #space between affected columns
 pixelBufferY=100 # same as pBx, but for rows
-
+#TEST 
+#HOWDY!
 #pixel x/y, start off at 100,100
 pX=100
 pY=100
+px=200-100
 timeUntilNextRow=10
 #iterate every 100th pixel 
 #store 10 characters on each row, spaced 100 pixel between each
