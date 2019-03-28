@@ -1,7 +1,8 @@
 from tkinter import *
 from tkinter import ttk
 from tkinter import filedialog
-
+from pathlib import Path
+import os
 
 def change_lay(l1, l2, l3, e1, e2, e3, r4, numb="3"):
     if numb == 1:
@@ -48,7 +49,10 @@ def runSt(l1, l2, l3, e1, e2, e3, r4, numb="3"):
 filename="No File Selected"
 root = Tk()
 root.title("Stegasaurus")
-root.iconbitmap(r'c:\Python32\DLLs\py.ico')
+# dirname = os.path.dirname(__file__)
+# filename = os.path.join(dirname, 'Cyper-Nynjas-master\stegaModule\steg.ico')
+# os.path.normpath(filename)
+# root.iconbitmap(r'E:\Cyper-Nynjas-master\stegaModule\steg.ico')
 
 L2 = Label(root, text="Decryption Key:")
 E2 = Entry(root, bd=5)
