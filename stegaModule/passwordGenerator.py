@@ -1,5 +1,9 @@
 #methods to analyze text length and space between pixels to determine
 #password, and how to dissect it for length and pixel sequence
+#need to connect this module to the encrpytion and decryption
+
+#need to connnect this module
+import random
 def getRowHopNum(pw): #pw=password
 
     pw=str(pw)
@@ -12,7 +16,19 @@ def getTextLength(pw):
     return int(pw[0:-2])
 ######################
 
-password=15310
+#password is easy, its the length of the text + 
+#the row jump timer, which is just a random int between 10-100
+def generatePassword(text):
+    length=len(text)
+    length = str(length)
+    #needs to check if image has enough pixels per row to accomodate int
+    #for now, keeping it hardcoded
+    #rjt = random.randint(10,99)
+    rjt=10
+    rjt=str(rjt)
+    return (length+rjt)
+    
+password=1510
 print("Password:",password)
 print("For this case, the row jumper is the last two digits, which is",getRowHopNum(password))
 print("The text length is",getTextLength(password),"characters")    
