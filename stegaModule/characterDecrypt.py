@@ -22,11 +22,12 @@ def decrypt(encryptedImage,textLength,rowJumpTimer):
      decryptedText.append(ASCIIchar)
      
      pX+=100
+     rjtPlaceholder = rowJumpTimer
      rowJumpTimer-=1
      if rowJumpTimer==0:
           pX=100
           pY+=100
-          rowJumpTimer=10
+          rowJumpTimer=rjtPlaceholder
      textLength-=1
      
     #return array of characters in string form
