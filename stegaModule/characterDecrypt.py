@@ -14,9 +14,10 @@ def decrypt(encryptedImage,textLength,rowJumpTimer):
      print("RGB value:",ePixels[pX,pY])
  
      rgbValue = list(ePixels[pX,pY])
-
+     placeHolderRGB= list(ePixels[pX-1,pY])
+     rValueMod = placeHolderRGB[0]
      #get the characters ASCII value and store it in list
-     ASCIIchar = chr(255-rgbValue[0])
+     ASCIIchar = chr(rValueMod-rgbValue[0])
      print("Retrieved character:",ASCIIchar)
      decryptedText.append(ASCIIchar)
      
@@ -41,6 +42,3 @@ rowJumpTimer = 10 #timer for how many pixels per row are inspected before jumpin
 plaintext=decrypt(Image.open('encryptedImage.png'),textLength,rowJumpTimer)
 print()
 print("Decrypted text:",plaintext)
-
-       
-
