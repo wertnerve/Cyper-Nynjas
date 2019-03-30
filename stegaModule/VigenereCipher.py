@@ -42,8 +42,7 @@ def applyCipher(message, word):
 
 #This method will work just like the one above, but instead of encrypting the characters at the end
 #it will decrypt them by subtracting the corresponding codeword ASCII value from the ciphertext ASCII value,
-#and computing the answer mod 127. A list containing the encrypted
-
+#and computing the answer mod 127. A string containing the decrypted message will be returned by this method.
 def decryptCiphertext(encryptedText, cipherword):
 
     if hasattr(encryptedText, "open"):
