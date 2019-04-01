@@ -1,37 +1,58 @@
 from PIL import Image
+#three main variables, the image, the length of ciphertext, the time between row jumps
+#potential idea, conjoin tL and rJT into one varibale, that can serve as password
+#removed textLength, thats done locally since length has been stored in first pixel
+def decrypt(encryptedImage,rowJumpTimer):
 
 
-# three main variables, the image, the length of ciphertext, the time between row jumps
-# potential idea, conjoin tL and rJT into one varibale, that can serve as password
-def decrypt(encryptedImage, textLength, rowJumpTimer):
-    encryptedImage = Image.open('encryptedImage.png')
-    ePixels = encryptedImage.load()
+    eImage = Image.open(encryptedImage)
+    ePixels = eImage.load()
 
-    pX = 100
-    pY = 100
-    decryptedText = []
+    rgbValue = list(ePixels[0,1])
+    placeHolderRGB= list(ePixels[0,0])
+    rValueMod = placeHolderRGB[0]
+    #get the characters ASCII value and store it in list
+    textLength = int(rValueMod-rgbValue[0])
+    print("Retrieved textlength:",textLength)
+    
+    pX=10
+    pY=10
+    decryptedText=[]
+    
+    while textLength >0:
+     pixelXY='('+str(pX)+','+str(pY)+')'
+     print("Current pixel location (x,y) is",pixelXY)
+     print("RGB value:",ePixels[pX,pY])
+ 
+     rgbValue = list(ePixels[pX,pY])
+     placeHolderRGB= list(ePixels[pX-1,pY])
+     rValueMod = placeHolderRGB[0]
+     #get the characters ASCII value and store it in list
+     ASCIIchar = chr(rValueMod-rgbValue[0])
+     print("Retrieved character:",ASCIIchar)
+     decryptedText.append(ASCIIchar)
+     
+     pX+=10
+     rjtPlaceholder = rowJumpTimer
+     rowJumpTimer-=1
+     if rowJumpTimer==0:
+          pX=10
+          pY+=10
+          rowJumpTimer=rjtPlaceholder
+     textLength-=1
+     
+    #return array of characters in string form
+    print()
+    print("Decrypted text:",''.join(decryptedText))
+    return (''.join(decryptedText))
+    
 
-    while textLength > 0:
-        pixelXY = '(' + str(pX) + ',' + str(pY) + ')'
-        print("Current pixel location (x,y) is", pixelXY)
-        print("RGB value:", ePixels[pX, pY])
+#reference on how to iterate eveyr pixel in image
+#for x in range(encryptedImage.size[0]): #even column of pixels
+ #   for y in range(encryptedImage.size[1]):
 
-        rgbValue = list(ePixels[pX, pY])
-        placeHolderRGB = list(ePixels[pX - 1, pY])
-        rValueMod = placeHolderRGB[0]
-        # get the characters ASCII value and store it in list
-        ASCIIchar = chr(rValueMod - rgbValue[0])
-        print("Retrieved character:", ASCIIchar)
-        decryptedText.append(ASCIIchar)
-
-        pX += 100
-        rjtPlaceholder = rowJumpTimer
-        rowJumpTimer -= 1
-        if rowJumpTimer == 0:
-            pX = 100
-            pY += 100
-            rowJumpTimer = rjtPlaceholder
-        textLength -= 1
-
-    # return array of characters in string form
-    return ''.join(decryptedText)
+#textLength = 10
+#rowJumpTimer = 10 #timer for how many pixels per row are inspected before jumping to next row
+#plaintext=decrypt(Image.open('encryptedImage.png'),textLength,rowJumpTimer)
+#print()
+#print("Decrypted text:",plaintext)
