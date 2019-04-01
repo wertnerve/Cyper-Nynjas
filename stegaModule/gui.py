@@ -3,6 +3,8 @@ from tkinter import ttk
 from tkinter import filedialog
 from pathlib import Path
 import os
+from stegaModule import characterEncrypt
+from stegaModule import characterDecrypt
 
 def change_lay(l1, l2, l3, e1, e2, e3, r4, numb="3"):
     if numb == 1:
@@ -13,7 +15,7 @@ def change_lay(l1, l2, l3, e1, e2, e3, r4, numb="3"):
         l2.grid_forget()
         e2.grid_forget()
 
-        r4.configure(text="Encrypt Message", command=lambda :runSt(L1, L2, L3, E1, E2, E3, R4, 1))
+        r4.configure(text="Encrypt Message", command=lambda: runSt(L1, L2, L3, E1, E2, E3, R4, 1))
     elif numb == 2:
         l2.grid(row=1)
         e2.grid(row=1, column=1, columnspan=2)
@@ -22,7 +24,7 @@ def change_lay(l1, l2, l3, e1, e2, e3, r4, numb="3"):
         l1.grid_forget()
         e1.grid_forget()
 
-        r4.configure(text="Decrypt Message", command=lambda :runSt(L1, L2, L3, E1, E2, E3, R4, 2))
+        r4.configure(text="Decrypt Message", command=lambda: runSt(L1, L2, L3, E1, E2, E3, R4, 2))
     else:
         print("erorr")
     return
@@ -30,7 +32,7 @@ def change_lay(l1, l2, l3, e1, e2, e3, r4, numb="3"):
 
 def selectF(root):
     global filename
-    filename =  filedialog.askopenfilename(initialdir = "/",title = "Select Image file",filetypes = (("jpeg files","*.png"),("all files","*.*")))
+    filename = filedialog.askopenfilename(initialdir="/", title="Select Image file", filetypes=(("png files", "*.png"), ("all files", "*.*")))
 
 
 def runSt(l1, l2, l3, e1, e2, e3, r4, numb="3"):
@@ -38,15 +40,33 @@ def runSt(l1, l2, l3, e1, e2, e3, r4, numb="3"):
         print(e1.get())
         print(e3.get())
         print(filename)
+
+        characterEncrypt.encrypt(filename, e3.get(), int(e1.get()))
+
     elif numb == 2:
         print(e2.get())
         print(filename)
+        characterDecrypt.decrypt(filename, 6, int(e2.get()))
     else:
         print("Error")
         
-    
+def openHelp():
+    help = Tk()
+    help.title = "Help Menu"
+    HL = Label(help, text="Help Info will Go Here")
+    HL.grid(row=0)
+    # HB = Button(help, text="Close Help", command=lambda: help.quit())
+    # HB.grid(row=1)
 
-filename="No File Selected"
+def openFAQ():
+    FAQ = Tk()
+    FAQ.title = "Help Menu"
+    FL = Label(FAQ, text="FAQ Info will Go Here")
+    FL.grid(row=0)
+    # FB = Button(FAQ, text="Close Help", command=lambda: FAQ.quit())
+    # FB.grid(row=1)
+
+filename = "No File Selected"
 root = Tk()
 root.title("Stegasaurus")
 # dirname = os.path.dirname(__file__)
@@ -54,6 +74,13 @@ root.title("Stegasaurus")
 # os.path.normpath(filename)
 # root.iconbitmap(r'E:\Cyper-Nynjas-master\stegaModule\steg.ico')
 
+# create a toplevel menu
+menubar = Menu(root)
+menubar.add_command(label="Close Application", command=lambda: root.quit())
+menubar.add_command(label="Open Help", command=lambda: openHelp())
+menubar.add_command(label="FAQ", command=lambda: openFAQ())
+# display the menu
+root.config(menu=menubar)
 L2 = Label(root, text="Decryption Key:")
 E2 = Entry(root, bd=5)
 
@@ -63,25 +90,23 @@ E1 = Entry(root, bd=5)
 R1 = Button(root, text="Encrypt", command=lambda :change_lay(L1, L2, L3, E1, E2, E3, R4, 1)).grid(row=0, column=0)
 
 
-R2 = Button(root, text="Decrypt", command=lambda :change_lay(L1, L2, L3, E1, E2, E3, R4, 2)).grid(row=0, column=2)
+R2 = Button(root, text="Decrypt", command=lambda: change_lay(L1, L2, L3, E1, E2, E3, R4, 2)).grid(row=0, column=2)
 
 
-L3 = Label(root,text="Text to be Encrypted:")
-E3 = Entry(root,bd=4)
+L3 = Label(root, text="Text to be Encrypted:")
+E3 = Entry(root, bd=4)
 
-R3 = Button(root, text="Select Image File", command=lambda :selectF(root))
+R3 = Button(root, text="Select Image File", command=lambda: selectF(root))
 
 
-R4 = Button(root, text="Encrypt Message", command=lambda :runSt(L1, L2, L3, E1, E2, E3, R4, 1))
+R4 = Button(root, text="Encrypt Message", command=lambda: runSt(L1, L2, L3, E1, E2, E3, R4, 1))
 
 L1.grid(row=1)
 E1.grid(row=1, column=1, columnspan=2)
 L3.grid(row=2)
-E3.grid(row=2,column=1, columnspan=2)
+E3.grid(row=2, column=1, columnspan=2)
 
-R3.grid(row=3,column=0, columnspan=3)
-R4.grid(row=4,column=0, columnspan=3)
+R3.grid(row=3, column=0, columnspan=3)
+R4.grid(row=4, column=0, columnspan=3)
 
 root.mainloop()
-
-            
