@@ -5,6 +5,8 @@ from pathlib import Path
 import os
 from stegaModule import characterEncrypt
 from stegaModule import characterDecrypt
+from stegaModule import passwordGenerator
+from PIL import Image
 
 def change_lay(l1, l2, l3, e1, e2, e3, r4, numb="3"):
     if numb == 1:
@@ -33,10 +35,12 @@ def change_lay(l1, l2, l3, e1, e2, e3, r4, numb="3"):
 def selectF(root):
     global filename
     filename = filedialog.askopenfilename(initialdir="/", title="Select Image file", filetypes=(("png files", "*.png"), ("all files", "*.*")))
-
+    
 
 def runSt(l1, l2, l3, e1, e2, e3, r4, numb="3"):
     if numb == 1:
+        #e1: password
+        #e2: plaintext
         print(e1.get())
         print(e3.get())
         print(filename)
@@ -45,8 +49,11 @@ def runSt(l1, l2, l3, e1, e2, e3, r4, numb="3"):
 
     elif numb == 2:
         print(e2.get())
+        #this wont work if user just decrypts without encyrpting first
+        print(len(str(e3.get())))
         print(filename)
-        characterDecrypt.decrypt(filename, 6, int(e2.get()))
+        #as work around for char length, use len(e3.get())
+        characterDecrypt.decrypt(filename, int(e2.get()))
     else:
         print("Error")
         
