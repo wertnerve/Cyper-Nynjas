@@ -97,3 +97,12 @@ def val(c):
         return ord(c) - ord('0')
     else:
         return ord(c) - ord('A') + 10
+
+"""
+inputt = "Hello, world."
+hexmess = hexconv(inputt)
+decmess = decconv(hexmess)
+print(inputt)
+print(hexmess)
+print(decmess)
+"""
