@@ -3,10 +3,11 @@ from tkinter import ttk
 from tkinter import filedialog
 from pathlib import Path
 import os
-from stegaModule import characterEncrypt
-from stegaModule import characterDecrypt
-from stegaModule import passwordGenerator
+import characterEncrypt
+import characterDecrypt
+# import passwordGenerator
 from PIL import Image
+
 
 def change_lay(l1, l2, l3, e1, e2, e3, r4, numb="3"):
     if numb == 1:
@@ -17,16 +18,16 @@ def change_lay(l1, l2, l3, e1, e2, e3, r4, numb="3"):
         l2.grid_forget()
         e2.grid_forget()
 
-        r4.configure(text="Encrypt Message", command=lambda: runSt(L1, L2, L3, E1, E2, E3, R4, 1))
+        r4.configure(text="Encrypt Message", font = ('Arial',12), command=lambda: runSt(L1, L2, L3, E1, E2, E3, R4, 1))
     elif numb == 2:
-        l2.grid(row=1)
-        e2.grid(row=1, column=1, columnspan=2)
+        l2.grid(row=1, rowspan=1)
+        e2.grid(row=1, column=1, columnspan=2, rowspan=1)
         l3.grid_forget()
         e3.grid_forget()
         l1.grid_forget()
         e1.grid_forget()
 
-        r4.configure(text="Decrypt Message", command=lambda: runSt(L1, L2, L3, E1, E2, E3, R4, 2))
+        r4.configure(text="Decrypt Message", font = ('Arial',12), command=lambda: runSt(L1, L2, L3, E1, E2, E3, R4, 2))
     else:
         print("erorr")
     return
@@ -76,44 +77,44 @@ def openFAQ():
 filename = "No File Selected"
 root = Tk()
 root.title("Stegasaurus")
-# dirname = os.path.dirname(__file__)
-# filename = os.path.join(dirname, 'Cyper-Nynjas-master\stegaModule\steg.ico')
-# os.path.normpath(filename)
-# root.iconbitmap(r'E:\Cyper-Nynjas-master\stegaModule\steg.ico')
+
+
+dir_path = os.path.dirname(os.path.realpath(__file__))
+root.iconbitmap(r''+dir_path+'\steg.ico')
 
 # create a toplevel menu
 menubar = Menu(root)
-menubar.add_command(label="Close Application", command=lambda: root.quit())
+menubar.add_command(label="Close Application", command=lambda: root.destroy())
 menubar.add_command(label="Open Help", command=lambda: openHelp())
 menubar.add_command(label="FAQ", command=lambda: openFAQ())
 # display the menu
 root.config(menu=menubar)
-L2 = Label(root, text="Decryption Key:")
-E2 = Entry(root, bd=5)
+L2 = Label(root, text="Decryption Key:", font = ('Arial',12))
+E2 = Entry(root, bd=1)
 
-L1 = Label(root, text="Encryption Key:")
-E1 = Entry(root, bd=5)
+L1 = Label(root, text="Encryption Key:", font = ('Arial',12))
+E1 = Entry(root, bd=1)
 
-R1 = Button(root, text="Encrypt", command=lambda :change_lay(L1, L2, L3, E1, E2, E3, R4, 1)).grid(row=0, column=0)
-
-
-R2 = Button(root, text="Decrypt", command=lambda: change_lay(L1, L2, L3, E1, E2, E3, R4, 2)).grid(row=0, column=2)
+R1 = Button(root, text="Encrypt",  font = ('Arial',12), command=lambda :change_lay(L1, L2, L3, E1, E2, E3, R4, 1)).grid(row=0, column=0)
 
 
-L3 = Label(root, text="Text to be Encrypted:")
-E3 = Entry(root, bd=4)
-
-R3 = Button(root, text="Select Image File", command=lambda: selectF(root))
+R2 = Button(root, text="Decrypt", font = ('Arial',12) ,command=lambda: change_lay(L1, L2, L3, E1, E2, E3, R4, 2)).grid(row=0, column=2)
 
 
-R4 = Button(root, text="Encrypt Message", command=lambda: runSt(L1, L2, L3, E1, E2, E3, R4, 1))
+L3 = Label(root, text="Text to be Encrypted:", font = ('Arial',12))
+E3 = Entry(root, bd=1)
+
+R3 = Button(root, text="Select Image",  font = ('Arial',12), command=lambda: selectF(root))
+
+
+R4 = Button(root, text="Encrypt Message",  font = ('Arial',12), command=lambda: runSt(L1, L2, L3, E1, E2, E3, R4, 1))
+
 
 L1.grid(row=1)
 E1.grid(row=1, column=1, columnspan=2)
 L3.grid(row=2)
 E3.grid(row=2, column=1, columnspan=2)
-
-R3.grid(row=3, column=0, columnspan=3)
-R4.grid(row=4, column=0, columnspan=3)
+R3.grid(row=4, column=0, columnspan=3)
+R4.grid(row=5, column=0, columnspan=3)
 
 root.mainloop()
