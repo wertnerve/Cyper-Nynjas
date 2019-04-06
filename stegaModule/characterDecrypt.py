@@ -1,8 +1,8 @@
 from PIL import Image
 #three main variables, the image, the length of ciphertext, the time between row jumps
-#potential idea, conjoin tL and rJT into one varibale, that can serve as password
+#potential idea, conjoin tL and pbPlaceholder into one varibale, that can serve as password
 #removed textLength, thats done locally since length has been stored in first pixel
-def decrypt(encryptedImage,rowJumpTimer):
+def decrypt(encryptedImage,pixelBuffer):
 
 
     eImage = Image.open(encryptedImage)
@@ -33,12 +33,12 @@ def decrypt(encryptedImage,rowJumpTimer):
      decryptedText.append(ASCIIchar)
      
      pX+=10
-     rjtPlaceholder = rowJumpTimer
-     rowJumpTimer-=1
-     if rowJumpTimer==0:
+     pbPlaceholder = pixelBuffer
+     pixelBuffer-=1
+     if pixelBuffer==0:
           pX=10
           pY+=10
-          rowJumpTimer=rjtPlaceholder
+          pixelBuffer=pbPlaceholder
      textLength-=1
      
     #return array of characters in string form
@@ -52,7 +52,7 @@ def decrypt(encryptedImage,rowJumpTimer):
  #   for y in range(encryptedImage.size[1]):
 
 #textLength = 10
-#rowJumpTimer = 10 #timer for how many pixels per row are inspected before jumping to next row
-#plaintext=decrypt(Image.open('encryptedImage.png'),textLength,rowJumpTimer)
+#pixelBuffer = 10 #timer for how many pixels per row are inspected before jumping to next row
+#plaintext=decrypt(Image.open('encryptedImage.png'),textLength,pixelBuffer)
 #print()
 #print("Decrypted text:",plaintext)

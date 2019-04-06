@@ -4,12 +4,12 @@
 
 #need to connnect this module
 import random
-def getRowHopNum(pw): #pw=password
+def getPixelBufferNum(pw): #pw=password
 
     pw=str(pw)
     length=len(str(pw))
-    rowHopNum=int(pw[length-2]+pw[length-1]) # for simplciity sake, return int
-    return rowHopNum
+    pixelBuffer=int(pw[length-1]) # for simplciity sake, return int
+    return pixelBuffer
 
 def getTextLength(pw):
     pw=str(pw)
@@ -28,7 +28,4 @@ def generatePassword(text):
     rjt=str(rjt)
     return (length+rjt)
     
-password=1510
-print("Password:",password)
-print("For this case, the row jumper is the last two digits, which is",getRowHopNum(password))
-print("The text length is",getTextLength(password),"characters")    
+

@@ -1,7 +1,6 @@
 from PIL import Image
 
-
-def encrypt(image, text, rowJumpTimer):
+def encrypt(image, text, pixelBuffer):
     # convert text to list of characters
     characterList = list(text)
     print(characterList)
@@ -18,7 +17,7 @@ def encrypt(image, text, rowJumpTimer):
     # pixel x/y, start off at 100,100
     pX = 100
     pY = 100
-    rjtPlaceholder = rowJumpTimer
+    pbPlaceholder = pixelBuffer
     # iterate every 100th pixel
     # store 10 characters on each row, spaced 100 pixel between each
     for char in characterList:
@@ -42,11 +41,11 @@ def encrypt(image, text, rowJumpTimer):
 
         # move to the next pixel in column(AKA x), after 10 column shifts, go to next row(AKA y)
         pX += 100
-        rowJumpTimer -= 1
-        if rowJumpTimer == 0:
+        pixelBuffer -= 1
+        if pixelBuffer == 0:
             pX = 100
             pY += 100
-            rowJumpTimer = rjtPlaceholder
+            pixelBuffer = pbPlaceholder
     # after all characters are encrpyted, show image!
     img.show()
     img.save("encryptedImage.png")
