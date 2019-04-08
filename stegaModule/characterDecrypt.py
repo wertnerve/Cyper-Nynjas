@@ -1,4 +1,7 @@
 from PIL import Image
+#not in use
+#from stegaModule import globalVariables
+
 #three main variables, the image, the length of ciphertext, the time between row jumps
 #potential idea, conjoin tL and pbPlaceholder into one varibale, that can serve as password
 #removed textLength, thats done locally since length has been stored in first pixel
@@ -7,16 +10,23 @@ def decrypt(encryptedImage,pixelBuffer):
 
     eImage = Image.open(encryptedImage)
     ePixels = eImage.load()
-
-    rgbValue = list(ePixels[0,1])
+    #R stands for R for RGB
+    #get the text length by taking the difference in R values
+    print("0,1",ePixels[1,0])
+    print("0,0",ePixels[0,0])
+    rgbValue = list(ePixels[1,0])
+    print(rgbValue[0])
     placeHolderRGB= list(ePixels[0,0])
     rValueMod = placeHolderRGB[0]
+    print(rValueMod)
     #get the characters ASCII value and store it in list
-    textLength = int(rValueMod-rgbValue[0])
+    textLength = int(abs(rgbValue[0]-rValueMod))
     print("Retrieved textlength:",textLength)
     
-    pX=10
-    pY=10
+    pX=1
+    pY=1
+
+    #store decrypted text here
     decryptedText=[]
     
     while textLength >0:
@@ -27,18 +37,22 @@ def decrypt(encryptedImage,pixelBuffer):
      rgbValue = list(ePixels[pX,pY])
      placeHolderRGB= list(ePixels[pX-1,pY])
      rValueMod = placeHolderRGB[0]
+     difference = rValueMod-rgbValue[0]
+     print("RGB value difference from left adjacent pixel is",difference)
      #get the characters ASCII value and store it in list
-     ASCIIchar = chr(rValueMod-rgbValue[0])
+     ASCIIchar = chr(difference)
      print("Retrieved character:",ASCIIchar)
      decryptedText.append(ASCIIchar)
-     
-     pX+=10
-     pbPlaceholder = pixelBuffer
-     pixelBuffer-=1
-     if pixelBuffer==0:
-          pX=10
-          pY+=10
-          pixelBuffer=pbPlaceholder
+
+     # move to the next pixel in column(AKA x), if all pixels in the row have been reached, jump to next row
+     try:
+         pX += pixelBuffer
+         print(ePixels[pX, pY])
+     except:
+         print("jumping to next row")
+         pX = 1
+         pY += 1
+
      textLength-=1
      
     #return array of characters in string form
