@@ -3,12 +3,11 @@ from tkinter import ttk
 from tkinter import filedialog
 from pathlib import Path
 import os
-import characterEncrypt
-import characterDecrypt
-# import passwordGenerator
-from PIL import Image
+from stegaModule import characterEncrypt
+from stegaModule import characterDecrypt
+from stegaModule import globalVariables
 
-
+#testing commit
 def change_lay(l1, l2, l3, e1, e2, e3, r4, numb="3"):
     if numb == 1:
         l1.grid(row=1)
@@ -46,7 +45,12 @@ def runSt(l1, l2, l3, e1, e2, e3, r4, numb="3"):
         print(e3.get())
         print(filename)
 
-        characterEncrypt.encrypt(filename, e3.get(), int(e1.get()))
+        password = str(e1.get())
+        pixelBuffer = password[len(password)-1]
+        pixelBuffer = int(pixelBuffer)
+        print(pixelBuffer)
+        #int(e1.get())
+        characterEncrypt.encrypt(filename, e3.get(),pixelBuffer)
 
     elif numb == 2:
         print(e2.get())
