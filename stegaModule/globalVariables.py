@@ -1,4 +1,4 @@
-#test
+#testing
 def initialize():
     global textLength
     textLength=0

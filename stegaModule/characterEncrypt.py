@@ -2,9 +2,13 @@ from PIL import Image
 #for now this does not do anything
 from stegaModule import globalVariables
 
-def encrypt(image, text, pixelBuffer):
+def encrypt(image, text, password):
+    #first, get pixelBuffer by getting last character of password
+    pixelBuffer = password[len(password) - 1]
+    pixelBuffer = int(pixelBuffer)
+    print(pixelBuffer)
     # convert text to list of characters
-
+    #test
     characterList = list(text)
     print(characterList)
     # include key for message in the message itself during encryption

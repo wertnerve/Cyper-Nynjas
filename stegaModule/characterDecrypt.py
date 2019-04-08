@@ -1,12 +1,16 @@
 from PIL import Image
+#test
 #not in use
 #from stegaModule import globalVariables
 
 #three main variables, the image, the length of ciphertext, the time between row jumps
 #potential idea, conjoin tL and pbPlaceholder into one varibale, that can serve as password
 #removed textLength, thats done locally since length has been stored in first pixel
-def decrypt(encryptedImage,pixelBuffer):
-
+def decrypt(encryptedImage,password):
+    # first, get pixelBuffer by getting last character of password
+    pixelBuffer = password[len(password) - 1]
+    pixelBuffer = int(pixelBuffer)
+    print(pixelBuffer)
 
     eImage = Image.open(encryptedImage)
     ePixels = eImage.load()

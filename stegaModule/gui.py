@@ -45,12 +45,7 @@ def runSt(l1, l2, l3, e1, e2, e3, r4, numb="3"):
         print(e3.get())
         print(filename)
 
-        password = str(e1.get())
-        pixelBuffer = password[len(password)-1]
-        pixelBuffer = int(pixelBuffer)
-        print(pixelBuffer)
-        #int(e1.get())
-        characterEncrypt.encrypt(filename, e3.get(),pixelBuffer)
+        characterEncrypt.encrypt(filename, e3.get(),str(e1.get()))
 
     elif numb == 2:
         print(e2.get())
@@ -58,7 +53,7 @@ def runSt(l1, l2, l3, e1, e2, e3, r4, numb="3"):
         print(len(str(e3.get())))
         print(filename)
         #as work around for char length, use len(e3.get())
-        characterDecrypt.decrypt(filename, int(e2.get()))
+        characterDecrypt.decrypt(filename, str(e1.get()))
     else:
         print("Error")
         
