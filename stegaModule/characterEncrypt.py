@@ -1,6 +1,6 @@
 from PIL import Image
 #for now this does not do anything
-from stegaModule import globalVariables
+import globalVariables
 
 def encrypt(image, text, password):
     #first, get pixelBuffer by getting last character of password

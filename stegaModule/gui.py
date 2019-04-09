@@ -3,9 +3,9 @@ from tkinter import ttk
 from tkinter import filedialog
 from pathlib import Path
 import os
-from stegaModule import characterEncrypt
-from stegaModule import characterDecrypt
-from stegaModule import globalVariables
+import characterEncrypt
+import characterDecrypt
+import globalVariables
 
 #testing commit
 def change_lay(l1, l2, l3, e1, e2, e3, r4, numb="3"):
@@ -38,40 +38,66 @@ def selectF(root):
     
 
 def runSt(l1, l2, l3, e1, e2, e3, r4, numb="3"):
-    if numb == 1:
-        #e1: password
-        #e2: plaintext
-        print(e1.get())
-        print(e3.get())
-        print(filename)
+    if checkErrors(l1, l2, l3, e1, e2, e3, r4, numb):
+        if numb == 1:
+            #e1: password
+            #e2: plaintext
+            print(e1.get())
+            print(e3.get())
+            print(filename)
 
-        characterEncrypt.encrypt(filename, e3.get(),str(e1.get()))
+            characterEncrypt.encrypt(filename, e3.get(),str(e1.get()))
 
-    elif numb == 2:
-        print(e2.get())
-        #this wont work if user just decrypts without encyrpting first
-        print(len(str(e3.get())))
-        print(filename)
-        #as work around for char length, use len(e3.get())
-        characterDecrypt.decrypt(filename, str(e1.get()))
-    else:
-        print("Error")
+        elif numb == 2:
+            print(e2.get())
+            #this wont work if user just decrypts without encyrpting first
+            print(filename)
+            #as work around for char length, use len(e3.get())
+            characterDecrypt.decrypt(filename, str(e1.get()))
+        else:
+            print("Error")
         
 def openHelp():
     help = Tk()
     help.title = "Help Menu"
     HL = Label(help, text="Help Info will Go Here")
     HL.grid(row=0)
-    # HB = Button(help, text="Close Help", command=lambda: help.quit())
-    # HB.grid(row=1)
 
 def openFAQ():
     FAQ = Tk()
     FAQ.title = "Help Menu"
     FL = Label(FAQ, text="FAQ Info will Go Here")
     FL.grid(row=0)
-    # FB = Button(FAQ, text="Close Help", command=lambda: FAQ.quit())
-    # FB.grid(row=1)
+def checkErrors(l1, l2, l3, e1, e2, e3, r4, numb):
+    if(str(e1.get()).isupper() or str(e1.get()).islower()) or str(e1.get()) == "" or str(e2.get()) == "" or str(e3.get() == "") or filename == "No File Selected":
+        x=False
+        
+        if(str(e1.get()).isupper() or str(e1.get()).islower()):
+            x=True
+            message="Key Must be Numbers Only"
+        if(numb == 1 and str(e1.get()) == ""):
+            x=True
+            message = "Encryption Key Must Not Be Empty"
+        if(numb == 2 and str(e2.get()) == ""):
+            x=True
+            message = "Decrpytion Key Must Not Be Empty"
+        if(numb == 1 and str(e3.get()) == ""):
+            x=True
+            message = "Text Field Must Not Be Empty"
+        if(filename == "No File Selected"):
+            x=True
+            message = "File Must Be Selected"
+        if(x):
+            erwin = Tk()
+            erwin.title = "Error"
+            EWL = Label(erwin, text=message, font = ('Arial',12))
+            EWL.grid(row=0)
+            return False
+        else:
+            return True
+    else:
+        return True
+
 
 filename = "No File Selected"
 root = Tk()
