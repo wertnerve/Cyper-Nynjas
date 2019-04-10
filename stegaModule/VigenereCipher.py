@@ -36,6 +36,7 @@ def applyCipher(message, word):
         y = x % n #Finds location in cipherASCII that corresponds to current location in ptASCII list
         ASCIIsum = int(ptASCII[x]) + int(cipherASCII[y])
         encryptedChars.append(ASCIIsum % 127) #Mod by 127 because ASCII uses values 0-127
+    print("Encrypted Char list")
     print(encryptedChars)
     return encryptedChars
 
@@ -44,7 +45,8 @@ def applyCipher(message, word):
 #it will decrypt them by subtracting the corresponding codeword ASCII value from the ciphertext ASCII value,
 #and computing the answer mod 127. A string containing the decrypted message will be returned by this method.
 def decryptCiphertext(encryptedText, cipherword):
-
+    print("ciphertext:",encryptedText)
+   # print("cipherword:",cipherword)
     if hasattr(encryptedText, "open"):
         with open(encryptedText, "r") as myFile:
             ciphertext = myFile.read().replace('\n', '')
@@ -65,13 +67,17 @@ def decryptCiphertext(encryptedText, cipherword):
         y = x % n
         ASCIIdiff = ciphertext[x] - ord(codewordChars[y])
         decryptedChars.append(ASCIIdiff % 127)
+    print("Decrypted char list")
     print (decryptedChars)
     decryptedMessage = ""
     for a in decryptedChars:
         decryptedMessage += chr(a)
     return decryptedMessage
 
+"""
 testfile = "VigenereCipherTest.txt"
-encryptedCharList = applyCipher(testfile, "ciph")
-decryptedMessage = decryptCiphertext(encryptedCharList, "ciph")
+encryptedCharList = VigenereCipher.applyCipher(testfile, "1234")
+decryptedMessage = VigenereCipher.decryptCiphertext(encryptedCharList, "1234")
 print (decryptedMessage)
+"""
+

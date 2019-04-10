@@ -3,9 +3,9 @@ from tkinter import ttk
 from tkinter import filedialog
 from pathlib import Path
 import os
-import characterEncrypt
-import characterDecrypt
-import globalVariables
+from stegaModule import characterEncrypt
+from stegaModule import characterDecrypt
+
 
 #testing commit
 def change_lay(l1, l2, l3, e1, e2, e3, r4, numb="3"):

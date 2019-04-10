@@ -1,6 +1,15 @@
 import math
 
 
+def convertToIntegerList(x):
+    y = []
+    i = 0
+    for char in x:
+        y.append(int(x[i]))
+        print(y)
+        i += 1
+    return y
+
 def euclid_alg(a, b):
     """Performs the euclidean algorithm to determine the gcd of two integers"""
     r = 1

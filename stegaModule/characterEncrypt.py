@@ -1,16 +1,24 @@
 from PIL import Image
+from stegaModule import VigenereCipher
 #for now this does not do anything
-import globalVariables
+
 
 def encrypt(image, text, password):
+    #before anything else, throw the plaintext into the Vigenere Cipher!
+    print("plaintext before encryption:")
+    print(text)
+    text = VigenereCipher.applyCipher(text,password)
+    print("CIPHERTEXT AFTER ENCRYPTION:")
+    print(text)
+
     #first, get pixelBuffer by getting last character of password
     pixelBuffer = password[len(password) - 1]
     pixelBuffer = int(pixelBuffer)
     print(pixelBuffer)
+
     # convert text to list of characters
-    #test
     characterList = list(text)
-    print(characterList)
+
     # include key for message in the message itself during encryption
     # load image
     img = Image.open(image)
@@ -20,6 +28,7 @@ def encrypt(image, text, password):
     print("Length:", len(characterList))
     print("Space between pixels:",pixelBuffer)
     print("Total number of pixels needed:",len(characterList)*pixelBuffer)
+
     lengthOfText = len(characterList)
     lengthOfText = int(lengthOfText)
     #check is there's enough pixels for the text to be encrypted, first row is reserved for pixelbuffer
@@ -28,6 +37,7 @@ def encrypt(image, text, password):
         return 0
     else :
         print("REJOICE! THERE ARE ENOUGH PIXELS")
+
     # store the length of the text with two pixels
     #the first pixel copies the value of the second
     #then the r value of that pixels rbg value becomes r-length
@@ -42,7 +52,7 @@ def encrypt(image, text, password):
     r = abs(r-len(characterList))
     pixels[0,0] = (r,g,b)
 
-    print("Value of pixel after stroing length:",pixels[1,0])
+    print("Value of pixel after storing length:",pixels[1,0])
 
     # pixel x/y, start off at the second row, first column
     pX = 1 #start at one since 0 needs to be the placeholder(0 is the first pixel in the row, 1 is the second)
@@ -61,8 +71,9 @@ def encrypt(image, text, password):
 
         placeHolder = list(pixels[pX - 1, pY])  # r value from adjacent pixele
         placeHolder = placeHolder[0]
-
-        r = placeHolder - ord(char)  # new value(adjacent pixel's value - char's ASCII value
+        print("Storing",char, "ASCII value:",chr(char))
+        r = placeHolder - char
+     #   r = placeHolder - ord(char)  # new value(adjacent pixel's value - char's ASCII value
 
         pixels[pX, pY] = (r, g, b)
         pixelXY = '(' + str(pX) + ',' + str(pY) + ')'
@@ -79,8 +90,8 @@ def encrypt(image, text, password):
             pX = 1
             pY += 1
 
-    # after all characters are encrpyted, show original and encrypted image!
-    img.show()
+    # after all ciphertext characters are encrpyted, show original and encrypted image!
+    #img.show()
     img.save("encryptedImage.png")
     eImage = Image.open("encryptedImage.png")
-    eImage.show()
+    #eImage.show()
