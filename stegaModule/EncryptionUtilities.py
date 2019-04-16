@@ -1,5 +1,14 @@
 import math
+import random
 
+def garbageGen(x):
+    garb = ""
+    for i in range(x):
+        char = chr(random.randint(32, 127))
+        while (char == '(' or char == ')'):
+            char = chr(random.randint(32, 127))
+        garb = garb + char
+    return garb
 
 def convertToIntegerList(x):
     y = []
