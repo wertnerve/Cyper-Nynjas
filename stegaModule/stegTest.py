@@ -18,3 +18,4 @@ print(text)
 text = "C:/Users/User/PycharmProjects/Cyper-Nynjas/stegaModule/encryptedImage.png"
 
 print(eu.trimFilename(text))
+#
