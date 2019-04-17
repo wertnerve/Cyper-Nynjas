@@ -11,12 +11,18 @@ def encrypt(image, text, password):
     print("CIPHERTEXT AFTER ENCRYPTION:")
     print(text)
 
+    #size of what we can - size of text - size of characters for flag is the number you pass
+    #to garbage gen(x), it will geenrate that many chaarcters
+
+    #split it somewhere random, or down the middle
+    #now we need to add garbage
+
     #first, get pixelBuffer by getting last character of password
     pixelBuffer = password[len(password) - 1]
     pixelBuffer = int(pixelBuffer)
     print(pixelBuffer)
 
-    # convert text to list of characters
+    # convert ciphertext to list of characters
     characterList = list(text)
 
     # include key for message in the message itself during encryption

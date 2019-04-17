@@ -3,8 +3,7 @@ from tkinter import ttk
 from tkinter import filedialog
 from pathlib import Path
 import os
-import characterEncrypt
-import characterDecrypt
+import stegaModule
 
 
 #testing commit
@@ -50,14 +49,14 @@ def runSt(l1, l2, l3, e1, e2, e3, r4, numb="3"):
             print(e3.get())
             print(filename)
 
-            characterEncrypt.encrypt(filename, e3.get(),str(e1.get()))
+            stegaModule.characterEncrypt.encrypt(filename, e3.get(),str(e1.get()))
 
         elif numb == 2:
             print(e2.get())
             #this wont work if user just decrypts without encyrpting first
             print(filename)
             #as work around for char length, use len(e3.get())
-            characterDecrypt.decrypt(filename, str(e1.get()))
+            stegaModule.characterDecrypt.decrypt(filename, str(e1.get()))
         else:
             print("Error")
         

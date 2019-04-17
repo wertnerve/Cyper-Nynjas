@@ -5,10 +5,31 @@ def garbageGen(x):
     garb = ""
     for i in range(x):
         char = chr(random.randint(32, 127))
-        while (char == '(' or char == ')'):
+        while (char == getMessageFlag(1) or char == getMessageFlag(2)):
             char = chr(random.randint(32, 127))
         garb = garb + char
+
     return garb
+
+def getMessageFlag(x):
+    if x == 1:
+       return '('
+    if x == 2:
+        return ')'
+
+def concatMessageFlags(text):
+
+    return getMessageFlag(1)+text+getMessageFlag(2)
+
+def trimFilename(text):
+    x = len(text)-1
+    char = text[x]
+    while char is not '/':
+        text=text[:-1]
+        x = len(text)-1
+        char = text[x]
+    return text
+
 
 def convertToIntegerList(x):
     y = []

@@ -2,10 +2,6 @@ from PIL import Image
 from stegaModule import VigenereCipher
 from stegaModule import EncryptionUtilities
 
-
-#three main variables, the image, the length of ciphertext, the time between row jumps
-#potential idea, conjoin tL and pbPlaceholder into one varibale, that can serve as password
-#removed textLength, thats done locally since length has been stored in first pixel
 def decrypt(encryptedImage,password):
     
     # first, get pixelBuffer by getting last character of password
@@ -25,7 +21,6 @@ def decrypt(encryptedImage,password):
     placeHolderRGB= list(ePixels[0,0])
     rValueMod = placeHolderRGB[0]
     print(rValueMod)
-    #get the vignere characters ASCII value and store it in list
     textLength = int(abs(rgbValue[0]-rValueMod))
     print("Retrieved textlength:",textLength)
     
@@ -45,8 +40,7 @@ def decrypt(encryptedImage,password):
      rValueMod = placeHolderRGB[0]
      difference = rValueMod-rgbValue[0]
      print("RGB value difference from left adjacent pixel is",difference)
-     #get the characters ASCII value and store it in list
-     #ASCII = chr(difference)
+     # get the vignere characters ASCII value and store it in list
      ASCII = difference
      print("Retrieved Vignere value:",ASCII)
      decryptedCipherText.append(ASCII)
@@ -61,8 +55,7 @@ def decrypt(encryptedImage,password):
          pY += 1
 
      textLength-=1
-     
-    #return array of characters in string form
+
     print()
     print("Decrypted Vignere ciphertext:",decryptedCipherText)
     #throw it into the vignere decryptor!

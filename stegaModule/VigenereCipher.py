@@ -36,8 +36,8 @@ def applyCipher(message, word):
         y = x % n #Finds location in cipherASCII that corresponds to current location in ptASCII list
         ASCIIsum = int(ptASCII[x]) + int(cipherASCII[y])
         encryptedChars.append(ASCIIsum % 127) #Mod by 127 because ASCII uses values 0-127
-    print("Encrypted Char list")
-    print(encryptedChars)
+    #print("Encrypted Char list")
+    #print(encryptedChars)
     return encryptedChars
 
 
