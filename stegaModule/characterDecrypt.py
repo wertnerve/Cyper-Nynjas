@@ -1,12 +1,34 @@
 from PIL import Image
-#three main variables, the image, the length of ciphertext, the time between row jumps
-#potential idea, conjoin tL and rJT into one varibale, that can serve as password
-def decrypt(encryptedImage,textLength,rowJumpTimer):
-    ePixels = encryptedImage.load()
+from stegaModule import VigenereCipher
+from stegaModule import EncryptionUtilities
+
+def decrypt(encryptedImage,password):
     
-    pX=100
-    pY=100
-    decryptedText=[]
+    # first, get pixelBuffer by getting last character of password
+    pixelBuffer = password[len(password) - 1]
+    pixelBuffer = int(pixelBuffer)
+    print(pixelBuffer)
+
+    eImage = Image.open(encryptedImage)
+    ePixels = eImage.load()
+    
+    #R stands for R for RGB
+    #get the text length by taking the difference in R values
+    print("0,1",ePixels[1,0])
+    print("0,0",ePixels[0,0])
+    rgbValue = list(ePixels[1,0])
+    print(rgbValue[0])
+    placeHolderRGB= list(ePixels[0,0])
+    rValueMod = placeHolderRGB[0]
+    print(rValueMod)
+    textLength = int(abs(rgbValue[0]-rValueMod))
+    print("Retrieved textlength:",textLength)
+    
+    pX=1
+    pY=1
+
+    #store decrypted text here
+    decryptedCipherText=[]
     
     while textLength >0:
      pixelXY='('+str(pX)+','+str(pY)+')'
@@ -16,30 +38,31 @@ def decrypt(encryptedImage,textLength,rowJumpTimer):
      rgbValue = list(ePixels[pX,pY])
      placeHolderRGB= list(ePixels[pX-1,pY])
      rValueMod = placeHolderRGB[0]
-     #get the characters ASCII value and store it in list
-     ASCIIchar = chr(rValueMod-rgbValue[0])
-     print("Retrieved character:",ASCIIchar)
-     decryptedText.append(ASCIIchar)
-     
-     pX+=100
-     rjtPlaceholder = rowJumpTimer
-     rowJumpTimer-=1
-     if rowJumpTimer==0:
-          pX=100
-          pY+=100
-          rowJumpTimer=rjtPlaceholder
+     difference = rValueMod-rgbValue[0]
+     print("RGB value difference from left adjacent pixel is",difference)
+     # get the vignere characters ASCII value and store it in list
+     ASCII = difference
+     print("Retrieved Vignere value:",ASCII)
+     decryptedCipherText.append(ASCII)
+
+     # move to the next pixel in column(AKA x), if all pixels in the row have been reached, jump to next row
+     try:
+         pX += pixelBuffer
+         print(ePixels[pX, pY])
+     except:
+         print("jumping to next row")
+         pX = 1
+         pY += 1
+
      textLength-=1
-     
-    #return array of characters in string form
-    return ''.join(decryptedText)
-    
 
-#reference on how to iterate eveyr pixel in image
-#for x in range(encryptedImage.size[0]): #even column of pixels
- #   for y in range(encryptedImage.size[1]):
+    print()
+    print("Decrypted Vignere ciphertext:",decryptedCipherText)
+    #throw it into the vignere decryptor!
+    #for vignere decrypt need int array
+   # password = EncryptionUtilities.convertToIntegerList(password)
+    print("password",(password))
+    plaintext = VigenereCipher.decryptCiphertext(decryptedCipherText,''.join(password))
+    print("Decrypted text:", plaintext)
+    return (plaintext)
 
-textLength = 4
-rowJumpTimer = 10 #timer for how many pixels per row are inspected before jumping to next row
-plaintext=decrypt(Image.open('encryptedImage.png'),textLength,rowJumpTimer)
-print()
-print("Decrypted text:",plaintext)
