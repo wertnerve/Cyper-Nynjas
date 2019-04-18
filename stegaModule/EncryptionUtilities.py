@@ -13,9 +13,9 @@ def garbageGen(x):
 
 def getMessageFlag(x):
     if x == 1:
-       return '('
+       return 'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK'
     if x == 2:
-        return ')'
+        return 'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK'
 
 def concatMessageFlags(text):
 
