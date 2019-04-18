@@ -3,7 +3,9 @@ from tkinter import ttk
 from tkinter import filedialog
 from pathlib import Path
 import os
-import stegaModule
+import characterEncrypt
+import characterDecrypt
+# import stegaModule
 
 
 #testing commit
@@ -70,29 +72,32 @@ def openHelp():
         HL.grid(row=0)
 
 def openFAQ():
-    FAQ = Tk()
-    FAQ.title = "Help Menu"
-    FL = Label(FAQ, text="FAQ Info will Go Here")
-    FL.grid(row=0)
+    try:
+        os.startfile("FAQ.pdf")
+    except:
+        FAQ = Tk()
+        FAQ.title = "FAQ Menu"
+        FL = Label(FAQ, text="FAQ PDF is missing! Please veiw FAQ on our website!", font = ('Arial',12))
+        FL.grid(row=0)
 def checkErrors(l1, l2, l3, e1, e2, e3, r4, numb):
     if(str(e1.get()).isupper() or str(e1.get()).islower()) or str(e1.get()) == "" or str(e2.get()) == "" or str(e3.get() == "") or filename == "No File Selected":
         x=False
-        
+        message=""
         if(str(e1.get()).isupper() or str(e1.get()).islower()):
             x=True
-            message="Key Must be Numbers Only"
+            message=message+"\nKey Must be Numbers Only"
         if(numb == 1 and str(e1.get()) == ""):
             x=True
-            message = "Encryption Key Must Not Be Empty"
+            message = message+"\nEncryption Key Must Not Be Empty"
         if(numb == 2 and str(e2.get()) == ""):
             x=True
-            message = "Decrpytion Key Must Not Be Empty"
+            message = message+"\nDecrpytion Key Must Not Be Empty"
         if(numb == 1 and str(e3.get()) == ""):
             x=True
-            message = "Text Field Must Not Be Empty"
+            message = message+"\nText Field Must Not Be Empty"
         if(filename == "No File Selected" or filename == ""):
             x=True
-            message = "File Must Be Selected"
+            message = message+"\nFile Must Be Selected"
         if(x):
             erwin = Tk()
             erwin.title = "Error"
