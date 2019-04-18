@@ -21,6 +21,12 @@ def concatMessageFlags(text):
 
     return getMessageFlag(1)+text+getMessageFlag(2)
 
+def concatGarbageAndFlags(text, garbage):
+    splitzone = random.randint(0, len(garbage)-1)
+    before = garbage[:splitzone]
+    after = garbage[splitzone:]
+    return before + getMessageFlag(1) + text + getMessageFlag(2) + after
+
 def trimFilename(text):
     x = len(text)-1
     char = text[x]
