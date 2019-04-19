@@ -1,6 +1,19 @@
 import math
 import random
 #
+# retrieveText takes in the decyrpted string of garbage and text and pulls the original message out using the flags
+# This function also accounts for the start and end flags being the same.
+def retrieveText(totalText):
+    startFlag = totalText.find(getMessageFlag(1))  # finds the start of the opening flag
+    print(startFlag)
+    startFlag = startFlag + len(getMessageFlag(1))  # finds the end of the opening flag
+    print(startFlag)
+    endFlag = totalText.find(getMessageFlag(2), startFlag)  # finds the start of the closing flag
+    print(endFlag)
+    text = totalText[startFlag: endFlag]
+    return text
+
+# generates a string of random characters, at the moment ignoring '(' and ')', though that can be removed if we lengthen the flags
 def garbageGen(x):
     garb = ""
     for i in range(x):
@@ -11,22 +24,28 @@ def garbageGen(x):
 
     return garb
 
+# defines the message flags, the starting flag is 1, and the ending flag is 2
 def getMessageFlag(x):
     if x == 1:
        return 'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK'
     if x == 2:
         return 'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK'
 
+# adds the flags to the beginning and the end of the message
+# superceded by concatGarbageAndFlags
 def concatMessageFlags(text):
 
     return getMessageFlag(1)+text+getMessageFlag(2)
 
+# adds a random length of the garbage string, then the start flag, to the text, then adds the end flag and the remaining string of
+# garbage to the end of the text
 def concatGarbageAndFlags(text, garbage):
     splitzone = random.randint(0, len(garbage)-1)
     before = garbage[:splitzone]
     after = garbage[splitzone:]
     return before + getMessageFlag(1) + text + getMessageFlag(2) + after
 
+# TODO: because i'm not sure what this is for
 def trimFilename(text):
     x = len(text)-1
     char = text[x]
@@ -36,7 +55,7 @@ def trimFilename(text):
         char = text[x]
     return text
 
-
+# TODO: because i'm not sure what this is for
 def convertToIntegerList(x):
     y = []
     i = 0
@@ -46,8 +65,9 @@ def convertToIntegerList(x):
         i += 1
     return y
 
+# Performs the euclidean algorithm to determine the gcd of two integers
+# can be removed if not being used
 def euclid_alg(a, b):
-    """Performs the euclidean algorithm to determine the gcd of two integers"""
     r = 1
     while r is not 0:
         q = math.floor(a / b)
@@ -58,9 +78,9 @@ def euclid_alg(a, b):
         b = r
     return b
 
-
+# performs modular exponentiation
+# can be removed if not being used
 def mod_exp(y, x, n):
-    """Performs modular exponentiation"""
     w, s, r = 0, 1, 1
     binary = bin(x)
     w = len(binary) - 2
@@ -78,9 +98,9 @@ def mod_exp(y, x, n):
             k = k + 1
     return r
 
-
+# Performs the Chinese Remainder Theorem
+# can be removed if not being used
 def chin_rem_them(a, m, b, n):
-    """Performs the Chinese Remainder Theorem"""
     if euclid_alg(m, n) is not 1:
         print("Error, m and n are not coprime. Ending Program")
         exit(0)
@@ -98,7 +118,8 @@ def chin_rem_them(a, m, b, n):
         x = b + n * k % mn
     return x
 
-
+# calculates modular inverse
+# can be removed if not being used
 def mod_inverse(a, m):
     a = a % m
     for x in range(1, m):
@@ -106,24 +127,23 @@ def mod_inverse(a, m):
             return x
     return 1
 
-
+# Converts a string into a hexadecimal representation of that string using the ASCII table values
 def hexconv(inputt):
-    """Converts a string into a hexadecimal representation of that string using the ASCII table values"""
     hexchar = ""
     for x in range(len(inputt)):
         hexchar = hexchar + ("%X" % ord(inputt[x]))  # ord() converts characters to their ASCII decimal values
-        """uses string formatting argument specifier %X to convert the decimal ASCII 
-        representation of the character to a hex value"""
+        # uses string formatting argument specifier %X to convert the decimal ASCII 
+        # representation of the character to a hex value
     return hexchar
 
-
+# Converts a string from hexadecimal representation to a string of characters
 def decconv(inputt):
     decchar = ""
     for x in range(0, len(inputt) - 1, 2):
         decchar = decchar + chr(todeci(inputt[x] + inputt[x+1]))
     return decchar
 
-
+# Calculates the change of base from hex to dec
 def todeci(str):
     llen = len(str)
     power = 1
@@ -136,18 +156,24 @@ def todeci(str):
         power = power * 16
     return num
 
-
+# helper function of todeci()
 def val(c):
     if '0' <= c <= '9':
         return ord(c) - ord('0')
     else:
         return ord(c) - ord('A') + 10
 
+# Test code for this module
 """
 inputt = "Hello, world."
-hexmess = hexconv(inputt)
-decmess = decconv(hexmess)
 print(inputt)
+somecrap = garbageGen(1000)
+toencrypt = concatGarbageAndFlags(inputt, somecrap)
+print(toencrypt)
+hexmess = hexconv(toencrypt)
 print(hexmess)
+decmess = decconv(hexmess)
 print(decmess)
+afterencrypt = retrieveText(decmess)
+print(afterencrypt)
 """
