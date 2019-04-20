@@ -45,7 +45,7 @@ def concatGarbageAndFlags(text, garbage):
     after = garbage[splitzone:]
     return before + getMessageFlag(1) + text + getMessageFlag(2) + after
 
-# TODO: because i'm not sure what this is for
+# takes in file path for oriignal image, trims off the name of the image so encrypted image can eb saved in same directory
 def trimFilename(text):
     x = len(text)-1
     char = text[x]
@@ -55,7 +55,7 @@ def trimFilename(text):
         char = text[x]
     return text
 
-# TODO: because i'm not sure what this is for
+# placeholder method for converting string of vignere characters into list
 def convertToIntegerList(x):
     y = []
     i = 0
