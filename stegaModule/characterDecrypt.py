@@ -1,9 +1,12 @@
 from PIL import Image
 from stegaModule import VigenereCipher
 from stegaModule import EncryptionUtilities
-
+#
 def decrypt(encryptedImage,password):
-    
+    eu = EncryptionUtilities
+    startFlagFound=False
+    endFlagFound=False
+
     # first, get pixelBuffer by getting last character of password
     pixelBuffer = password[len(password) - 1]
     pixelBuffer = int(pixelBuffer)
@@ -30,7 +33,8 @@ def decrypt(encryptedImage,password):
     #store decrypted text here
     decryptedCipherText=[]
     
-    while textLength >0:
+    #while startFlagFound == False:
+    while textLength > 0:
      pixelXY='('+str(pX)+','+str(pY)+')'
      print("Current pixel location (x,y) is",pixelXY)
      print("RGB value:",ePixels[pX,pY])
@@ -42,8 +46,14 @@ def decrypt(encryptedImage,password):
      print("RGB value difference from left adjacent pixel is",difference)
      # get the vignere characters ASCII value and store it in list
      ASCII = difference
-     print("Retrieved Vignere value:",ASCII)
-     decryptedCipherText.append(ASCII)
+     print("Retrieved Vignere value:",[ASCII],"as a char =",chr(ASCII))
+     vFlag = VigenereCipher.applyCipher(eu.getMessageFlag(1),password)
+     print("Checking if ASCII =", vFlag)
+
+     if [ASCII] is VigenereCipher.decryptCiphertext(vFlag,password):
+         print("START FLAG AHS BEEN FOUND!")
+         startFlagFound = True
+     if startFlagFound or startFlagFound==False: decryptedCipherText.append(ASCII)
 
      # move to the next pixel in column(AKA x), if all pixels in the row have been reached, jump to next row
      try:
@@ -63,6 +73,6 @@ def decrypt(encryptedImage,password):
    # password = EncryptionUtilities.convertToIntegerList(password)
     print("password",(password))
     plaintext = VigenereCipher.decryptCiphertext(decryptedCipherText,''.join(password))
-    print("Decrypted text:", plaintext)
+    print("Decrypted plaintext:", plaintext)
     return (plaintext)
 
