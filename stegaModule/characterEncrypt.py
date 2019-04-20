@@ -1,5 +1,5 @@
 from PIL import Image
-from stegaModule import VigenereCipher
+import stegaModule
 #for now this does not do anything
 
 
@@ -7,10 +7,20 @@ def encrypt(image, text, password):
     #before anything else, throw the plaintext into the Vigenere Cipher!
     print("plaintext before encryption:")
     print(text)
-    text = VigenereCipher.applyCipher(text,password)
-    print("CIPHERTEXT AFTER ENCRYPTION:")
+    print("ADDING MESSAGE FLAGS")
+    text = stegaModule.EncryptionUtilities.concatMessageFlags(text)
     print(text)
+    print("plaintext as char list")
+    # convert ciphertext to list of characters
+    characterList = list(text)
+    print(characterList)
+    print("plaintext AFTER VIGNERE ENCRYPTION:")
+    text = stegaModule.VigenereCipher.applyCipher(text, password)
+    print(text)
+    print("Ciphertext as character list")
+    characterList = list(text)
 
+    print(text)
     #size of what we can - size of text - size of characters for flag is the number you pass
     #to garbage gen(x), it will geenrate that many chaarcters
 
@@ -22,8 +32,6 @@ def encrypt(image, text, password):
     pixelBuffer = int(pixelBuffer)
     print(pixelBuffer)
 
-    # convert ciphertext to list of characters
-    characterList = list(text)
 
     # include key for message in the message itself during encryption
     # load image
@@ -57,7 +65,7 @@ def encrypt(image, text, password):
     b = placeHolderRGB[2]
     r = abs(r-len(characterList))
     pixels[0,0] = (r,g,b)
-
+#tst
     print("Value of pixel after storing length:",pixels[1,0])
 
     # pixel x/y, start off at the second row, first column
@@ -74,9 +82,11 @@ def encrypt(image, text, password):
         r = rgbValue[0]  # original value
         g = rgbValue[1]
         b = rgbValue[2]
-
+        print("H")
         placeHolder = list(pixels[pX - 1, pY])  # r value from adjacent pixele
         placeHolder = placeHolder[0]
+        print(placeHolder)
+        print(char)
         print("Storing",char, "ASCII value:",chr(char))
         r = placeHolder - char
      #   r = placeHolder - ord(char)  # new value(adjacent pixel's value - char's ASCII value
@@ -98,6 +108,9 @@ def encrypt(image, text, password):
 
     # after all ciphertext characters are encrpyted, show original and encrypted image!
     #img.show()
-    img.save("encryptedImage.png")
-    eImage = Image.open("encryptedImage.png")
+    print(image)
+    filename = stegaModule.EncryptionUtilities.trimFilename(image)
+    filename+="encryptedImage.png"
+    img.save(filename)
+    eImage = Image.open(filename)
     #eImage.show()
