@@ -48,17 +48,19 @@ def runSt(l1, l2, l3, e1, e2, e3, r4, numb="3"):
             #e1: password
             #e2: plaintext
             print(e1.get())
-            print(e3.get())
+            print(e3.get("1.0",END))
             print(filename)
 
-            stegaModule.characterEncrypt.encrypt(filename, e3.get(),str(e1.get()))
+            characterEncrypt.encrypt(filename, e3.get("1.0",END),str(e1.get()))
 
         elif numb == 2:
             print(e2.get())
             #this wont work if user just decrypts without encyrpting first
             print(filename)
             #as work around for char length, use len(e3.get())
-            stegaModule.characterDecrypt.decrypt(filename, str(e1.get()))
+            al = "Message Retrieved:\n"
+            al = al+characterDecrypt.decrypt(filename, str(e2.get()))
+            printAlert(al)
         else:
             print("Error")
         
@@ -80,7 +82,7 @@ def openFAQ():
         FL = Label(FAQ, text="FAQ PDF is missing! Please veiw FAQ on our website!", font = ('Arial',12))
         FL.grid(row=0)
 def checkErrors(l1, l2, l3, e1, e2, e3, r4, numb):
-    if(str(e1.get()).isupper() or str(e1.get()).islower()) or str(e1.get()) == "" or str(e2.get()) == "" or str(e3.get() == "") or filename == "No File Selected":
+    if(str(e1.get()).isupper() or str(e1.get()).islower()) or str(e1.get()) == "" or str(e2.get()) == "" or str(e3.get("1.0",END) == "") or filename == "No File Selected":
         x=False
         message=""
         if(str(e1.get()).isupper() or str(e1.get()).islower()):
@@ -92,7 +94,7 @@ def checkErrors(l1, l2, l3, e1, e2, e3, r4, numb):
         if(numb == 2 and str(e2.get()) == ""):
             x=True
             message = message+"\nDecrpytion Key Must Not Be Empty"
-        if(numb == 1 and str(e3.get()) == ""):
+        if(numb == 1 and str(e3.get("1.0",END)) == ""):
             x=True
             message = message+"\nText Field Must Not Be Empty"
         if(filename == "No File Selected" or filename == ""):
@@ -111,12 +113,17 @@ def checkErrors(l1, l2, l3, e1, e2, e3, r4, numb):
     else:
         return True
 
+def printAlert(message):
+    awin = Tk()
+    awin.title = "Notice"
+    AWL = Text(awin, width=100)
+    AWL.insert(END, message)
+    AWL.grid(row=0)
+
 
 filename = "No File Selected"
 root = Tk()
 root.title("Stegasaurus")
-
-
 dir_path = os.path.dirname(os.path.realpath(__file__))
 root.iconbitmap(r''+dir_path+'\steg.ico')
 
@@ -140,7 +147,7 @@ R2 = Button(root, text="Decrypt", font = ('Arial',12) ,command=lambda: change_la
 
 
 L3 = Label(root, text="Text to be Encrypted:", font = ('Arial',12))
-E3 = Entry(root, bd=1)
+E3 = Text(root, width = 15, height = 1)
 
 R3 = Button(root, text="Select Image",  font = ('Arial',12), command=lambda: selectF(root))
 L5 = Label(root, text="", font = ('Arial',12))
