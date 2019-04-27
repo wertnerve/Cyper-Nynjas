@@ -13,13 +13,13 @@ def retrieveText(totalText):
     text = totalText[startFlag: endFlag]
     return text
 
-# generates a string of random characters, at the moment ignoring '(' and ')', though that can be removed if we lengthen the flags
+# generates a string of random characters, at the moment ignoring 
 def garbageGen(x):
     garb = ""
     for i in range(x):
         char = chr(random.randint(32, 127))
-        while (char == getMessageFlag(1) or char == getMessageFlag(2)):
-            char = chr(random.randint(32, 127))
+        #while (char == getMessageFlag(1) or char == getMessageFlag(2)):
+        #    char = chr(random.randint(32, 127))
         garb = garb + char
 
     return garb
