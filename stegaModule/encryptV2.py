@@ -2,11 +2,13 @@ from PIL import Image
 import EncryptionUtilities
 import VigenereCipher
 import characterDecrypt
+import decryptTest
 #for now this does not do anything
 
 
 def encrypt(image, text, password):
-
+    #text before any ecnryption/modification is done
+    untouchedText = text
     eu = EncryptionUtilities
     #print(text)
     #size of what we can - size of text - size of characters for flag is the number you pass
@@ -22,7 +24,7 @@ def encrypt(image, text, password):
     pixels = img.load()
     #first, get pixelBuffer by getting last character of password
     pixelBuffer = eu.getPixelBuffer(password)
-   
+    pixelBuffer = 2
     garbageCharNum = (img.size[0]*img.size[1])-len(text)
     garbageCharNum -= eu.getMessageFlagLength()
     garbageCharNum = garbageCharNum // pixelBuffer
@@ -129,7 +131,18 @@ def encrypt(image, text, password):
     img.save(filename)
     eImage = Image.open(filename)
     #test if decryption works
-    
-    print("Encryption Succesfull!")
-    print(filename)
+    print()
+    print("Message has been hidden within the image!")
+    print("Testing decrypt of text")
+    plaintextTest = decryptTest.decrypt(filename,password)
+    print()
+    print("retrieved following text:",plaintextTest)
+    if plaintextTest == untouchedText :
+        print()
+        print("Encryption Succesfull!")
+    else :
+        print()
+        print("Your image contains some inconsistent pixels. ")
+        print("Decrypt may not retrieve entire original text. Suggestion: Try using a different Image / password" )
+    print("Your encrypted image is saved here:",filename)
     #eImage.show()
