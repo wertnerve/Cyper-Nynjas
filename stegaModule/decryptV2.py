@@ -74,7 +74,8 @@ def decrypt(encryptedImage,password):
       """
 
        # move to the next pixel in column(AKA x), if all pixels in the row have been reached, jump to next row
-      pX += pixelBuffer
+      #pX += pixelBuffer
+      pX+=2
       if pX >= eImage.size[0]:
         print("jumping to next row")
         pX = 1
