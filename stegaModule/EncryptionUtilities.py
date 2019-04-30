@@ -1,6 +1,14 @@
 import math
 import random
 #
+#this retrieves and returns the last number as an int
+#this int determines the space between pixels that store characters
+def getPixelBuffer(password):
+    pixelBuffer = password[len(password) - 1]
+    pixelBuffer = int(pixelBuffer)
+    return pixelBuffer
+    
+    
 # retrieveText takes in the decyrpted string of garbage and text and pulls the original message out using the flags
 # This function also accounts for the start and end flags being the same.
 def retrieveText(totalText):
@@ -18,18 +26,22 @@ def garbageGen(x):
     garb = ""
     for i in range(x):
         char = chr(random.randint(32, 127))
-        #while (char == getMessageFlag(1) or char == getMessageFlag(2)):
-        #    char = chr(random.randint(32, 127))
+        while (char == getMessageFlag(1) or char == getMessageFlag(2)):
+            char = chr(random.randint(32, 127))
         garb = garb + char
-
     return garb
 
 # defines the message flags, the starting flag is 1, and the ending flag is 2
 def getMessageFlag(x):
     if x == 1:
-       return 'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK'
+       return "("
     if x == 2:
-        return 'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK'
+        return ")"
+    
+#determien how many pixels are needed to store messageflags
+def getMessageFlagLength():
+
+  return len(getMessageFlag(1))+len(getMessageFlag(2))
 
 # adds the flags to the beginning and the end of the message
 # superceded by concatGarbageAndFlags
@@ -42,7 +54,9 @@ def concatMessageFlags(text):
 def concatGarbageAndFlags(text, garbage):
     splitzone = random.randint(0, len(garbage)-1)
     before = garbage[:splitzone]
+   # print("Before :",len(before))
     after = garbage[splitzone:]
+   # print("After :",len(after))
     return before + getMessageFlag(1) + text + getMessageFlag(2) + after
 
 # takes in file path for oriignal image, trims off the name of the image so encrypted image can eb saved in same directory
