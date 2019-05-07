@@ -5,13 +5,18 @@ from pathlib import Path
 import os
 
 try:
-    import stegaModule
+    #3.7
+    from stegaModule import characterEncrypt
+    from stegaModule import characterDecrypt
 except:
+    #3.6
     import characterEncrypt
     import characterDecrypt
+    
 # Changes Layout B/W Encrypt and Decrypt.
 # Python 3.6 does not allow passing of root to use buttons
 def change_lay(l1, l2, l3, e1, e2, e3, r4, numb="3"):
+   
     R3.configure(text="Select Image  ", font = ('Arial',20))
     filename = ""
     if numb == 1:
@@ -147,49 +152,49 @@ def printAlert(ti, message):
     AWL.grid(row=0)
 
 #Main Body
+def main():
+    global L1, L2, L3, E1, E2, E3, R3, R4
+    filename = "No File Selected"
+    root = Tk()
+    root.title("Stegasaurus")
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    root.iconbitmap(r''+dir_path+'\steg.ico')
 
-filename = "No File Selected"
-root = Tk()
-root.title("Stegasaurus")
-dir_path = os.path.dirname(os.path.realpath(__file__))
-root.iconbitmap(r''+dir_path+'\steg.ico')
+    # create a toplevel menu
+    menubar = Menu(root)
+    menubar.add_command(label="Close Application", command=lambda: root.destroy())
+    menubar.add_command(label="Open Help", command=lambda: openHelp())
+    menubar.add_command(label="FAQ", command=lambda: openFAQ())
+    # display the menu
+    root.config(menu=menubar)
 
-# create a toplevel menu
-menubar = Menu(root)
-menubar.add_command(label="Close Application", command=lambda: root.destroy())
-menubar.add_command(label="Open Help", command=lambda: openHelp())
-menubar.add_command(label="FAQ", command=lambda: openFAQ())
-# display the menu
-root.config(menu=menubar)
+    # All Entry Boxes and Labels
+    L2 = Label(root, text="Decryption Key:", font = ('Arial',20))
+    E2 = Entry(root, bd=1)
 
-# All Entry Boxes and Labels
-L2 = Label(root, text="Decryption Key:", font = ('Arial',20))
-E2 = Entry(root, bd=1)
+    L1= Label(root, text="Encryption Key:", font = ('Arial',20))
+    E1 = Entry(root, bd=1)
 
-L1 = Label(root, text="Encryption Key:", font = ('Arial',20))
-E1 = Entry(root, bd=1)
-
-R1 = Button(root, text="Encrypt",  font = ('Arial',20), command=lambda :change_lay(L1, L2, L3, E1, E2, E3, R4, 1)).grid(row=0, column=0)
-
-
-R2 = Button(root, text="Decrypt", font = ('Arial',20) ,command=lambda: change_lay(L1, L2, L3, E1, E2, E3, R4, 2)).grid(row=0, column=2)
+    R1 = Button(root, text="Encrypt",  font = ('Arial',20), command=lambda :change_lay(L1, L2, L3, E1, E2, E3, R4, 1)).grid(row=0, column=0)
 
 
-L3 = Label(root, text="Text to be Encrypted:", font = ('Arial',20))
-E3 = Text(root, width = 30, height = 10)
+    R2 = Button(root, text="Decrypt", font = ('Arial',20) ,command=lambda: change_lay(L1, L2, L3, E1, E2, E3, R4, 2)).grid(row=0, column=2)
 
-R3 = Button(root, text="Select Image  ",  font = ('Arial',20), command=lambda: selectF(root))
-L5 = Label(root, text="", font = ('Arial',12))
+    L3 = Label(root, text="Text to be Encrypted:", font = ('Arial',20))
+    E3 = Text(root, width = 30, height = 10)
+
+    R3 = Button(root, text="Select Image  ",  font = ('Arial',20), command=lambda: selectF(root))
+    L5 = Label(root, text="", font = ('Arial',12))
 
 
-R4 = Button(root, text="Encrypt Message",  font = ('Arial',20), command=lambda: runSt(L1, L2, L3, E1, E2, E3, R4, 1))
+    R4 = Button(root, text="Encrypt Message",  font = ('Arial',20), command=lambda: runSt(L1, L2, L3, E1, E2, E3, R4, 1))
 
-# Everything packed to grid
-L1.grid(row=1, column=0, columnspan=3)
-E1.grid(row=2, column=0, columnspan=3)
-L3.grid(row=3, columnspan=3)
-E3.grid(row=4, column=0, columnspan=3)
-R3.grid(row=5, column=0, columnspan=3)
-R4.grid(row=6, column=0, columnspan=3)
+    # Everything packed to grid
+    L1.grid(row=1, column=0, columnspan=3)
+    E1.grid(row=2, column=0, columnspan=3)
+    L3.grid(row=3, columnspan=3)
+    E3.grid(row=4, column=0, columnspan=3)
+    R3.grid(row=5, column=0, columnspan=3)
+    R4.grid(row=6, column=0, columnspan=3)
 
-root.mainloop()
+    root.mainloop()
