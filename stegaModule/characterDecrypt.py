@@ -1,7 +1,11 @@
-from PIL import Image
+
 import VigenereCipher
 import EncryptionUtilities
-#
+#import gui
+try:
+    from PIL import Image
+except:
+    import Image
 
 def decrypt(encryptedImage,password):
     eu = EncryptionUtilities
@@ -95,5 +99,7 @@ def decrypt(encryptedImage,password):
     plaintext = VigenereCipher.decryptCiphertext(decryptedCipherText,''.join(password))
     print("Decrypted plaintext with flags and garbage:", plaintext)
     plaintext=EncryptionUtilities.retrieveText(plaintext)
-    print("Decrypted plaintext:", plaintext)
+    message = "Decrypted plaintext:", plaintext
+    #gui.printAlert("Message", plaintext)
     return (plaintext)
+
