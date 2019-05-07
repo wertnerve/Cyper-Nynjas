@@ -9,8 +9,8 @@ try:
 except:
     import characterEncrypt
     import characterDecrypt
-
-#testing commit
+# Changes Layout B/W Encrypt and Decrypt.
+# Python 3.6 does not allow passing of root to use buttons
 def change_lay(l1, l2, l3, e1, e2, e3, r4, numb="3"):
     R3.configure(text="Select Image  ", font = ('Arial',20))
     filename = ""
@@ -34,7 +34,7 @@ def change_lay(l1, l2, l3, e1, e2, e3, r4, numb="3"):
         print("erorr")
     return
 
-
+# Get filename, and set checkmark on button
 def selectF(root):
     global filename
     filename = filedialog.askopenfilename(initialdir="/", title="Select Image file", filetypes=(("png files", "*.png"),("jpg", "*.jpg"),("JPEG files", "*.jpeg"), ("all files", "*.*")))
@@ -44,7 +44,7 @@ def selectF(root):
     else:
         R3.configure(text="Select Image ✘", font = ('Arial',20))
     
-
+# Runs chaaracter encrypt / decrypt 
 def runSt(l1, l2, l3, e1, e2, e3, r4, numb="3"):
     if checkErrors(l1, l2, l3, e1, e2, e3, r4, numb):
         if numb == 1:
@@ -62,28 +62,31 @@ def runSt(l1, l2, l3, e1, e2, e3, r4, numb="3"):
             print(filename)
             #as work around for char length, use len(e3.get())
             al = "Message Retrieved:\n"
-            al = al+characterDecrypt.decrypt(filename, str(e2.get()))
-            printAlert(al)
+            al = characterDecrypt.decrypt(filename, str(e2.get()))
+            printAlert("Message Retrieved",al)
         else:
             print("Error")
-        
+
+#open help pdf, alert with error otherwise        
 def openHelp():
     try:
         os.startfile("Help.pdf")
     except:
         help = Tk()
-        help.title = "Help Menu"
+        help.title("Help Menu")
         HL = Label(help, text="Help PDF is missing! Please veiw help on our website!", font = ('Arial',12))
         HL.grid(row=0)
-
+# open FAQ pdf, alert with error otherwise
 def openFAQ():
     try:
         os.startfile("FAQ.pdf")
     except:
         FAQ = Tk()
-        FAQ.title = "FAQ Menu"
+        FAQ.title("FAQ Menu")
         FL = Label(FAQ, text="FAQ PDF is missing! Please veiw FAQ on our website!", font = ('Arial',12))
         FL.grid(row=0)
+
+# check for errors in any boxes, returns false if errors found
 def checkErrors(l1, l2, l3, e1, e2, e3, r4, numb):
     # if(str(e1.get()).isupper() or str(e1.get()).islower()) or str(e1.get()) == "" or str(e2.get()) == "" or str(e3.get("1.0",END) == "") or filename == "No File Selected":
     if True:
@@ -116,12 +119,15 @@ def checkErrors(l1, l2, l3, e1, e2, e3, r4, numb):
         if(numb == 1 and len(e3.get("1.0", END)) == 1):
             x=True
             message = message+"\nText Field Must Not Be Empty"
+        if(numb == 1 and len(e3.get("1.0", END)) >= 1001):
+            x=True
+            message = message+"\nText Can Not Exceed 1000 characters"
         if(filename == "No File Selected" or filename == ""):
             x=True
             message = message+"\nFile Must Be Selected"
         if(x):
             erwin = Tk()
-            erwin.title = "Error"
+            erwin.title("Error")
             message="Notice: "+message
             EWL = Label(erwin, text=message, font = ('Arial',12))
             EWL.configure(bg = 'White', fg = 'Red')
@@ -132,13 +138,15 @@ def checkErrors(l1, l2, l3, e1, e2, e3, r4, numb):
     else:
         return True
 
-def printAlert(message):
+#open window with textbox
+def printAlert(ti, message):
     awin = Tk()
-    awin.title = "Notice"
+    awin.title(ti)
     AWL = Text(awin, width=100)
     AWL.insert(END, message)
     AWL.grid(row=0)
 
+#Main Body
 
 filename = "No File Selected"
 root = Tk()
@@ -153,6 +161,8 @@ menubar.add_command(label="Open Help", command=lambda: openHelp())
 menubar.add_command(label="FAQ", command=lambda: openFAQ())
 # display the menu
 root.config(menu=menubar)
+
+# All Entry Boxes and Labels
 L2 = Label(root, text="Decryption Key:", font = ('Arial',20))
 E2 = Entry(root, bd=1)
 
@@ -174,7 +184,7 @@ L5 = Label(root, text="", font = ('Arial',12))
 
 R4 = Button(root, text="Encrypt Message",  font = ('Arial',20), command=lambda: runSt(L1, L2, L3, E1, E2, E3, R4, 1))
 
-
+# Everything packed to grid
 L1.grid(row=1, column=0, columnspan=3)
 E1.grid(row=2, column=0, columnspan=3)
 L3.grid(row=3, columnspan=3)
