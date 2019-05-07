@@ -1,6 +1,10 @@
 from PIL import Image
-from stegaModule import VigenereCipher
-from stegaModule import EncryptionUtilities
+try:
+    from stegaModule import VigenereCipher
+    from stegaModule import EncryptionUtilities
+except:
+    import VigenereCipher
+    import EncryptionUtilities
 #
 def decrypt(encryptedImage,password):
     eu = EncryptionUtilities

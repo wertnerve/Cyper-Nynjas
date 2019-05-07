@@ -1,21 +1,23 @@
 from PIL import Image
-import stegaModule
-#for now this does not do anything
-
+try:
+    import stegaModule
+except:
+    import VigenereCipher
+    import EncryptionUtilities
 
 def encrypt(image, text, password):
     #before anything else, throw the plaintext into the Vigenere Cipher!
     print("plaintext before encryption:")
     print(text)
     print("ADDING MESSAGE FLAGS")
-    text = stegaModule.EncryptionUtilities.concatMessageFlags(text)
+    text = EncryptionUtilities.concatMessageFlags(text)
     print(text)
     print("plaintext as char list")
     # convert ciphertext to list of characters
     characterList = list(text)
     print(characterList)
     print("plaintext AFTER VIGNERE ENCRYPTION:")
-    text = stegaModule.VigenereCipher.applyCipher(text, password)
+    text = VigenereCipher.applyCipher(text, password)
     print(text)
     print("Ciphertext as character list")
     characterList = list(text)
@@ -109,7 +111,7 @@ def encrypt(image, text, password):
     # after all ciphertext characters are encrpyted, show original and encrypted image!
     #img.show()
     print(image)
-    filename = stegaModule.EncryptionUtilities.trimFilename(image)
+    filename = EncryptionUtilities.trimFilename(image)
     filename+="encryptedImage.png"
     img.save(filename)
     eImage = Image.open(filename)
