@@ -1,5 +1,4 @@
 try:
-    from PIL import Image
     from stegaModule import EncryptionUtilities
     from stegaModule import VigenereCipher
     from stegaModule import characterDecrypt
@@ -7,7 +6,8 @@ try:
     from stegaModule import gui
     from stegaModule import time
 except:
-    import Image
+    import PIL
+    from PIL import Image
     import EncryptionUtilities
     import VigenereCipher
     import characterDecrypt
