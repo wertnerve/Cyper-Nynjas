@@ -5,6 +5,7 @@ try:
     from stegaModule import decryptTest
     from stegaModule import gui
     from stegaModule import time
+    from tkinter import filedialog, messagebox
 except:
     import PIL
     from PIL import Image
@@ -136,9 +137,9 @@ def encrypt(image, text, password):
     # after all ciphertext characters are encrpyted, show original and encrypted image!
     #img.show()
     print(image)
-    filename = EncryptionUtilities.trimFilename(image)
-    filename+="encryptedImage.png"
-   # filename = "encryptedImage.png"
+    messagebox.showinfo("","Create a file to save your image in:")
+    filename = filedialog.asksaveasfilename(initialdir="/", title="Select file",
+                                 filetypes=(("png files", "*.png"), ("all files", "*.*")))
     img.save(filename)
     eImage = Image.open(filename)
     #test if decryption works
