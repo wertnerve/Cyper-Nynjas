@@ -1,4 +1,6 @@
 try:
+    import Image
+    import PIL
     from stegaModule import EncryptionUtilities
     from stegaModule import VigenereCipher
     from stegaModule import characterDecrypt
@@ -6,19 +8,22 @@ try:
     from stegaModule import gui
     from stegaModule import time
     from tkinter import filedialog, messagebox
+
 except:
-    import PIL
-    from PIL import Image
+    #import PIL
     import EncryptionUtilities
     import VigenereCipher
     import characterDecrypt
     import decryptTest
     import gui
     import time
+    from tkinter import filedialog, messagebox
+
 #for now this does not do anything
 
 
 def encrypt(image, text, password):
+    
     #text before any ecnryption/modification is done
     untouchedText = text
     eu = EncryptionUtilities
@@ -55,7 +60,7 @@ def encrypt(image, text, password):
     lengthOfText = len(text)
     #check is there's enough pixels for the text to be encrypted, first row is reserved for pixelbuffer
     if lengthOfText*pixelBuffer > img.size[0]*img.size[1] :
-        print("THERE ARE NOT ENOUGH PIXELS AVAILABLE FOR THIS TEXT")
+        gui.printAlert("THERE ARE NOT ENOUGH PIXELS AVAILABLE FOR THIS TEXT")
         return 0
     else :
         print("REJOICE! THERE ARE ENOUGH PIXELS")        
@@ -137,9 +142,14 @@ def encrypt(image, text, password):
     # after all ciphertext characters are encrpyted, show original and encrypted image!
     #img.show()
     print(image)
+    #filename = EncryptionUtilities.trimFilename(image)
+    #filename+="encryptedImage.png"
     messagebox.showinfo("","Create a file to save your image in:")
     filename = filedialog.asksaveasfilename(initialdir="/", title="Select file",
                                  filetypes=(("png files", "*.png"), ("all files", "*.*")))
+    filename+=".png"
+    print(filename)
+   # filename = "encryptedImage.png"
     img.save(filename)
     eImage = Image.open(filename)
     #test if decryption works
@@ -151,13 +161,20 @@ def encrypt(image, text, password):
     print("retrieved following text:",plaintextTest)
     if plaintextTest == untouchedText :
         print()
-        message = "Encryption Succesfull! \nYour encrypted image is saved here:",filename,"\nOpening Encrypted Image in different window:"
-        gui.printAlert("Success!",message)
+        message = "Encryption Succesfull! \n Your encrypted image is saved here: \n"
+        message += filename
+        message += "\n Press OK to open your encrypted Image."
+        #gui.printAlert("Success!",message)
+        messagebox.showinfo("Success!",message)
        # sleepTime=2
     else :
         print()
-        message = "Your encrypted image is saved here:",filename,"\nYour image contains some inconsistent pixels. \nDecrypt may not retrieve entire original text. \nSuggestion: Try using a different Image / password \nOpening image in new window..." 
-        gui.printAlert("Pixel RGB Error.",message)
+        message = "Your encrypted image is saved here:"
+        message+= filename
+        message+= "\n Your image contains some inconsistent pixels."
+        message+= "\n Decrypt may not retrieve entire original text. \n Suggestion: Try using a different Image / password \n Press OK to view image..." 
+        #gui.printAlert("Pixel RGB Error.",message)
+        messagebox.showinfo("Pixel RGB Error",message)
        # sleepTime=4
     print()
     #time.sleep(sleepTime)
