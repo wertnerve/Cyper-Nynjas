@@ -5,28 +5,28 @@ from pathlib import Path
 import os
 
 try:
-    #3.7
-    from stegaModule import characterEncrypt
-    from stegaModule import characterDecrypt
-except:
-    #3.6
+    # 3.7
     import characterEncrypt
     import characterDecrypt
-    
+except:
+    # 3.6
+    import characterEncrypt
+    import characterDecrypt
+
+
 # Changes Layout B/W Encrypt and Decrypt.
 # Python 3.6 does not allow passing of root to use buttons
 def change_lay(l1, l2, l3, e1, e2, e3, r4, numb="3"):
-   
-    R3.configure(text="Select Image  ", font = ('Arial',20))
+    R3.configure(text="Select Image  ", font=('Arial', 20))
     filename = ""
     if numb == 1:
         l1.grid(row=1, column=0, columnspan=3)
         e1.grid(row=2, column=0, columnspan=3)
-        l3.grid(row=3, columnspan = 3)
-        e3.grid(row=4,column=0, columnspan=3)
+        l3.grid(row=3, columnspan=3)
+        e3.grid(row=4, column=0, columnspan=3)
         l2.grid_forget()
         e2.grid_forget()
-        r4.configure(text="Encrypt Message", font = ('Arial',20), command=lambda: runSt(L1, L2, L3, E1, E2, E3, R4, 1))
+        r4.configure(text="Encrypt Message", font=('Arial', 20), command=lambda: runSt(L1, L2, L3, E1, E2, E3, R4, 1))
     elif numb == 2:
         l2.grid(row=1, columnspan=3)
         e2.grid(row=2, column=0, columnspan=3, rowspan=2)
@@ -34,53 +34,59 @@ def change_lay(l1, l2, l3, e1, e2, e3, r4, numb="3"):
         e3.grid_forget()
         l1.grid_forget()
         e1.grid_forget()
-        r4.configure(text="Decrypt Message", font = ('Arial',20), command=lambda: runSt(L1, L2, L3, E1, E2, E3, R4, 2))
+        r4.configure(text="Decrypt Message", font=('Arial', 20), command=lambda: runSt(L1, L2, L3, E1, E2, E3, R4, 2))
     else:
         print("erorr")
     return
 
+
 # Get filename, and set checkmark on button
 def selectF(root):
     global filename
-    filename = filedialog.askopenfilename(initialdir="/", title="Select Image file", filetypes=(("png files", "*.png"),("jpg", "*.jpg"),("JPEG files", "*.jpeg"), ("all files", "*.*")))
-    R3.grid(row=5,column=0,columnspan=3)
-    if(filename!=""):
-        R3.configure(text="Select Image ✔", font = ('Arial',20))
+    filename = filedialog.askopenfilename(initialdir="/", title="Select Image file", filetypes=(
+    ("png files", "*.png"), ("jpg", "*.jpg"), ("JPEG files", "*.jpeg"), ("all files", "*.*")))
+    R3.grid(row=5, column=0, columnspan=3)
+    if (filename != ""):
+        R3.configure(text="Select Image ✔", font=('Arial', 20))
     else:
-        R3.configure(text="Select Image ✘", font = ('Arial',20))
-    
+        R3.configure(text="Select Image ✘", font=('Arial', 20))
+
+
 # Runs chaaracter encrypt / decrypt 
 def runSt(l1, l2, l3, e1, e2, e3, r4, numb="3"):
     if checkErrors(l1, l2, l3, e1, e2, e3, r4, numb):
         if numb == 1:
-            #e1: password
-            #e2: plaintext
+            # e1: password
+            # e2: plaintext
             print(e1.get())
-            print(e3.get("1.0",END))
+            print(e3.get("1.0", END))
             print(filename)
 
-            characterEncrypt.encrypt(filename, e3.get("1.0",END),str(e1.get()))
+            characterEncrypt.encrypt(filename, e3.get("1.0", END), str(e1.get()))
 
         elif numb == 2:
             print(e2.get())
-            #this wont work if user just decrypts without encyrpting first
+            # this wont work if user just decrypts without encyrpting first
             print(filename)
-            #as work around for char length, use len(e3.get())
+            # as work around for char length, use len(e3.get())
             al = "Message Retrieved:\n"
             al = characterDecrypt.decrypt(filename, str(e2.get()))
-            printAlert("Message Retrieved",al)
+            printAlert("Message Retrieved", al)
         else:
             print("Error")
 
-#open help pdf, alert with error otherwise        
+
+# open help pdf, alert with error otherwise
 def openHelp():
     try:
         os.startfile("Help.pdf")
     except:
         help = Tk()
         help.title("Help Menu")
-        HL = Label(help, text="Help PDF is missing! Please veiw help on our website!", font = ('Arial',12))
+        HL = Label(help, text="Help PDF is missing! Please veiw help on our website!", font=('Arial', 12))
         HL.grid(row=0)
+
+
 # open FAQ pdf, alert with error otherwise
 def openFAQ():
     try:
@@ -88,54 +94,58 @@ def openFAQ():
     except:
         FAQ = Tk()
         FAQ.title("FAQ Menu")
-        FL = Label(FAQ, text="FAQ PDF is missing! Please veiw FAQ on our website!", font = ('Arial',12))
+        FL = Label(FAQ, text="FAQ PDF is missing! Please veiw FAQ on our website!", font=('Arial', 12))
         FL.grid(row=0)
+
 
 # check for errors in any boxes, returns false if errors found
 def checkErrors(l1, l2, l3, e1, e2, e3, r4, numb):
     # if(str(e1.get()).isupper() or str(e1.get()).islower()) or str(e1.get()) == "" or str(e2.get()) == "" or str(e3.get("1.0",END) == "") or filename == "No File Selected":
     if True:
-        x=False
-        message=""
-        if(numb == 1):
+        x = False
+        message = ""
+        if (numb == 1):
             try:
                 int(e1.get())
-                if int(e1.get())<0:
-                    x=True
-                    message=message+"\nKey Must Be Positive Numbers Only"
+                if int(e1.get()) < 0:
+                    x = True
+                    message = message + "\nKey Must Be Positive Numbers Only"
             except:
-                x=True
-                message=message+"\nKey Must Be Positive Numbers Only"
-        if(numb == 2):
+                x = True
+                message = message + "\nKey Must Be Positive Numbers Only"
+        if (numb == 2):
             try:
                 int(e2.get())
-                if int(e2.get())<0:
-                    x=True
-                    message=message+"\nKey Must Be Positive Numbers Only"
+                if int(e2.get()) < 0:
+                    x = True
+                    message = message + "\nKey Must Be Positive Numbers Only"
             except:
-                x=True
-                message=message+"\nKey Must Be Positive Numbers Only"
-        if(numb == 1 and str(e1.get()) == ""):
-            x=True
-            message = message+"\nEncryption Key Must Not Be Empty"
-        if(numb == 2 and str(e2.get()) == ""):
-            x=True
-            message = message+"\nDecrpytion Key Must Not Be Empty"
-        if(numb == 1 and len(e3.get("1.0", END)) == 1):
-            x=True
-            message = message+"\nText Field Must Not Be Empty"
-        if(numb == 1 and len(e3.get("1.0", END)) >= 1001):
-            x=True
-            message = message+"\nText Can Not Exceed 1000 characters"
-        if(filename == "No File Selected" or filename == ""):
-            x=True
-            message = message+"\nFile Must Be Selected"
-        if(x):
+                x = True
+                message = message + "\nKey Must Be Positive Numbers Only"
+        if (numb == 1 and str(e1.get()) == ""):
+            x = True
+            message = message + "\nEncryption Key Must Not Be Empty"
+        if (numb == 1 and len(str(e1.get())) < 2) or (numb == 2 and len(str(e2.get()))<2):
+            x = True
+            message = message + "\nKey Length Must Be Longer Than 1 Character"
+        if (numb == 2 and str(e2.get()) == ""):
+            x = True
+            message = message + "\nDecrpytion Key Must Not Be Empty"
+        if (numb == 1 and len(e3.get("1.0", END)) == 1):
+            x = True
+            message = message + "\nText Field Must Not Be Empty"
+        if (numb == 1 and len(e3.get("1.0", END)) >= 1001):
+            x = True
+            message = message + "\nText Can Not Exceed 1000 characters"
+        if (filename == "No File Selected" or filename == ""):
+            x = True
+            message = message + "\nFile Must Be Selected"
+        if (x):
             erwin = Tk()
             erwin.title("Error")
-            message="Notice: "+message
-            EWL = Label(erwin, text=message, font = ('Arial',12))
-            EWL.configure(bg = 'White', fg = 'Red')
+            message = "Notice: " + message
+            EWL = Label(erwin, text=message, font=('Arial', 12))
+            EWL.configure(bg='White', fg='Red')
             EWL.grid(row=0)
             return False
         else:
@@ -143,7 +153,8 @@ def checkErrors(l1, l2, l3, e1, e2, e3, r4, numb):
     else:
         return True
 
-#open window with textbox
+
+# open window with textbox
 def printAlert(ti, message):
     awin = Tk()
     awin.title(ti)
@@ -151,14 +162,16 @@ def printAlert(ti, message):
     AWL.insert(END, message)
     AWL.grid(row=0)
 
-#Main Body
+
+# Main Body
 def main():
     global L1, L2, L3, E1, E2, E3, R3, R4
+    global filename
     filename = "No File Selected"
     root = Tk()
     root.title("Stegasaurus")
     dir_path = os.path.dirname(os.path.realpath(__file__))
-    root.iconbitmap(r''+dir_path+'\steg.ico')
+    root.iconbitmap(r'' + dir_path + '\steg.ico')
 
     # create a toplevel menu
     menubar = Menu(root)
@@ -169,25 +182,25 @@ def main():
     root.config(menu=menubar)
 
     # All Entry Boxes and Labels
-    L2 = Label(root, text="Decryption Key:", font = ('Arial',20))
+    L2 = Label(root, text="Decryption Key:", font=('Arial', 20))
     E2 = Entry(root, bd=1)
 
-    L1= Label(root, text="Encryption Key:", font = ('Arial',20))
+    L1 = Label(root, text="Encryption Key:", font=('Arial', 20))
     E1 = Entry(root, bd=1)
 
-    R1 = Button(root, text="Encrypt",  font = ('Arial',20), command=lambda :change_lay(L1, L2, L3, E1, E2, E3, R4, 1)).grid(row=0, column=0)
+    R1 = Button(root, text="Encrypt", font=('Arial', 20),
+                command=lambda: change_lay(L1, L2, L3, E1, E2, E3, R4, 1)).grid(row=0, column=0)
 
+    R2 = Button(root, text="Decrypt", font=('Arial', 20),
+                command=lambda: change_lay(L1, L2, L3, E1, E2, E3, R4, 2)).grid(row=0, column=2)
 
-    R2 = Button(root, text="Decrypt", font = ('Arial',20) ,command=lambda: change_lay(L1, L2, L3, E1, E2, E3, R4, 2)).grid(row=0, column=2)
+    L3 = Label(root, text="Text to be Encrypted:", font=('Arial', 20))
+    E3 = Text(root, width=30, height=10)
 
-    L3 = Label(root, text="Text to be Encrypted:", font = ('Arial',20))
-    E3 = Text(root, width = 30, height = 10)
+    R3 = Button(root, text="Select Image  ", font=('Arial', 20), command=lambda: selectF(root))
+    L5 = Label(root, text="", font=('Arial', 12))
 
-    R3 = Button(root, text="Select Image  ",  font = ('Arial',20), command=lambda: selectF(root))
-    L5 = Label(root, text="", font = ('Arial',12))
-
-
-    R4 = Button(root, text="Encrypt Message",  font = ('Arial',20), command=lambda: runSt(L1, L2, L3, E1, E2, E3, R4, 1))
+    R4 = Button(root, text="Encrypt Message", font=('Arial', 20), command=lambda: runSt(L1, L2, L3, E1, E2, E3, R4, 1))
 
     # Everything packed to grid
     L1.grid(row=1, column=0, columnspan=3)
